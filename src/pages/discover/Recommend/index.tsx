@@ -28,14 +28,39 @@ const navList = [
       id: Math.random()
     },
   ]
-  
+
+  const images = [
+    'https://p1.music.126.net/7yf2kfPh7wlMGC-d-3AEsw==/109951163309396149.jpg?param=140y140',
+    'https://p2.music.126.net/jpGpwxor2KCsMsqFhROGNA==/109951168164727442.jpg?param=140y140',
+    'https://p2.music.126.net/ni8sAmkzarFKVwGfIu7s3Q==/109951168753559612.jpg?param=140y140',
+    'https://p1.music.126.net/7yf2kfPh7wlMGC-d-3AEsw==/109951163309396149.jpg?param=140y140',
+    'https://p2.music.126.net/ni8sAmkzarFKVwGfIu7s3Q==/109951168753559612.jpg?param=140y140',
+    'https://p2.music.126.net/jpGpwxor2KCsMsqFhROGNA==/109951168164727442.jpg?param=140y140',
+    'https://p2.music.126.net/ni8sAmkzarFKVwGfIu7s3Q==/109951168753559612.jpg?param=140y140',
+    'https://p2.music.126.net/ni8sAmkzarFKVwGfIu7s3Q==/109951168753559612.jpg?param=140y140',
+  ];
+
+  const renderBoxes = () => {
+    return images.map((image, index) => (
+      <div key={index} className="box">
+        <img src={image} alt={`Image ${index + 1}`} />
+        <div className='bottom'>
+          <Link to="#" title='播放'></Link>
+          <span className='icon-headset'></span>
+          <span className='nb'></span>
+        </div>
+      </div>
+    ));
+  };
+
+
 const Recommend :React.FC =()=>{
     return(
         <Fragment>
            <div className='recommend-box'>
-            <div className='recommend'>
-              {/* 热门推荐部分 */}
+            <div className='recommend'>  
               <div className='recommend-conent'>
+                {/* 热门推荐导航栏部分 */}
               <div className='recommend-header'>
                 <Link to="/discover/playlist"  className="tit">热门推荐</Link>
                 <div className='tab'>
@@ -50,11 +75,11 @@ const Recommend :React.FC =()=>{
               </div>
               <span className='more'><Link to=''>更多</Link> <i className='cor'>&nbsp;</i></span>
               </div>
+
+              {/* 热门推荐内容 */}
+              <div className="box-container">{renderBoxes()}</div>;
+
             </div>
-            {/* 热门推荐内容 */}
-            <ul className='recommend-item'>
-               
-            </ul>
             </div>
            </div>
         </Fragment>
