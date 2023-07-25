@@ -1,0 +1,57 @@
+a {
+  text-decoration: none;
+}
+.recommend-box {
+  position: relative;
+  background: #f3f2f2;
+}
+.recommend-box .recommend {
+  margin: 0 auto;
+  width: 980px;
+  min-height: 700px;
+  border: 1px solid #d3d3d3;
+  border-width: 0 1px;
+  background-color: white;
+}
+.recommend-box .recommend .recommend-conent {
+  padding: 20px 20px 40px;
+  margin-right: 251px;
+}
+.recommend-box .recommend .recommend-conent .recommend-header {
+  height: 33px;
+  padding: 0 10px 0 34px;
+  background-position: -225px -156px;
+  border-bottom: 2px solid #C10D0C;
+  background-image: url(../styles/index.png);
+  background-repeat: no-repeat;
+}
+.recommend-box .recommend .recommend-conent .recommend-header .tit {
+  text-decoration: none;
+  float: left;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 28px;
+}
+.recommend-box .recommend .recommend-conent .recommend-header .tab {
+  float: left;
+  margin: 7px 0 0 20px;
+}
+.recommend-box .recommend .recommend-conent .recommend-header .tab .line {
+  margin: 0 10px;
+  color: #ccc;
+}
+.recommend-box .recommend .recommend-conent .recommend-header .more {
+  float: right;
+  margin-top: 9px;
+  font-size: 12px;
+}
+.recommend-box .recommend .recommend-conent .recommend-header .more .cor {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-left: 4px;
+  vertical-align: middle;
+  background-position: 0 -240px;
+  background-image: url("../styles/index.png");
+}

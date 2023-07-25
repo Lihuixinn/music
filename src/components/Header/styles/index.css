@@ -1,0 +1,31 @@
+body {
+  font-size: 12px;
+  color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+div ul {
+  display: block;
+}
+.top-box {
+  position: relative;
+  z-index: 1000;
+  height: 70px;
+  width: auto;
+  box-sizing: border-box;
+  background: #242424;
+  border-bottom: 1px solid #000;
+}
+.top-box .top-content {
+  width: 1100px;
+  margin: 0 auto;
+}

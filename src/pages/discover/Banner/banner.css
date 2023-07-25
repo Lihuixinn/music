@@ -1,0 +1,94 @@
+.carousel-box{
+
+  width: auto;
+  height: 285px;
+}
+.carousel{
+  position: relative;
+  left:269px;
+  width: 982px;
+  height: 285px;
+
+}
+.carousel img{
+  width: 730px;
+}
+.download{
+  position: absolute;
+  background-image: url("../styles/download.png");
+  width: 254px;
+  height: 285px;
+  right: -1px;
+  top: 0px;
+}
+.download a{
+  display: block;
+  width: 215px;
+  height: 56px;
+  margin: 186px 0 0 19px;
+  background-position: 0 9999px;
+  text-indent: -9999px;
+}
+.download p {
+  margin: 10px auto;
+  text-align: center;
+  color: #8d8d8d;
+}
+.dots{
+   position: absolute;
+   width: 500px;
+   height: 100px;
+   bottom: -75px;
+   left: 340px;
+}
+.dots li{
+  display: inline-block;
+  margin-left: 10px;
+  background-color:white;
+  border-radius: 50%;
+}
+
+.back{
+  background-color: red !important;
+  z-index: 3;
+}
+
+
+
+/* 左箭头 */
+.custom-prev-arrow {
+  position: absolute;
+  color:#dddcdc;
+  background-color: transparent;
+  border: 0;
+  width:45px;
+  height:68px;
+  font-size:36px;
+  left: -68px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.custom-prev-arrow:hover{
+  width:45px;
+  height:68px;
+  background-color: #333;
+}
+/* 右箭头 */
+.custom-next-arrow {
+  position: absolute;
+  background-color: transparent;
+  border: 0;
+  width:45px;
+  height:68px;
+  color: #dddcdc;
+  font-size:36px;
+  right: -68px;
+  top: 50%;
+  transform: translateY(-50%);
+  /* 其他样式属性 */
+}
+.custom-next-arrow:hover{
+  width:45px;
+  height:68px;
+  background-color: #333;
+}
