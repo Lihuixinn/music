@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import Carousel from './Banner/index'
-import Recommend from './Recommend'
+import Recommend from './Recommend/index'
 
 
   
