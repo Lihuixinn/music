@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react'
+import React, { useEffect,Fragment } from 'react'
 import { Link } from "react-router-dom";
 import "./recommend.css"
+
 const navList = [
     {
       name: '华语',
@@ -37,7 +38,7 @@ const navList = [
     'https://p2.music.126.net/ni8sAmkzarFKVwGfIu7s3Q==/109951168753559612.jpg?param=140y140',
     'https://p2.music.126.net/jpGpwxor2KCsMsqFhROGNA==/109951168164727442.jpg?param=140y140',
     'https://p2.music.126.net/ni8sAmkzarFKVwGfIu7s3Q==/109951168753559612.jpg?param=140y140',
-    'https://p2.music.126.net/ni8sAmkzarFKVwGfIu7s3Q==/109951168753559612.jpg?param=140y140',
+    'https://p2.music.126.net/BLMmLfUNu0zdprDISL_hTw==/109951165764406932.jpg?param=140y140',
   ];
 
   const renderBoxes = () => {
@@ -45,9 +46,12 @@ const navList = [
       <div key={index} className="box">
         <img src={image} alt={`Image ${index + 1}`} />
         <div className='bottom'>
-          <Link to="#" title='播放'></Link>
+          <Link to="#" title='播放' className='icon-play'></Link>
           <span className='icon-headset'></span>
-          <span className='nb'></span>
+          <span className='nb'>321万</span>
+        </div>
+        <div className='dec'>
+          <Link className='hover' to={'/playlist'}>【万评电音】抬头，已是一片星海</Link>
         </div>
       </div>
     ));
