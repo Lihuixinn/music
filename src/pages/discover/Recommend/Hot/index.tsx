@@ -1,5 +1,6 @@
 import React, { useEffect,Fragment } from 'react'
 import { Link } from "react-router-dom";
+import More from "../More/index"
 import "./hot.css"
 
 const navList = [
@@ -60,9 +61,7 @@ const navList = [
 
 const Hot :React.FC =()=>{
     return(
-        <Fragment>
-           <div className='recommend-box'>
-            <div className='recommend'>  
+        <Fragment> 
               <div className='recommend-conent'>
                 {/* 热门推荐导航栏部分 */}
               <div className='recommend-header'>
@@ -77,15 +76,14 @@ const Hot :React.FC =()=>{
                 })
                }
               </div>
-              <span className='more'><Link to=''>更多</Link> <i className='cor'>&nbsp;</i></span>
+                   <More/>
               </div>
 
               {/* 热门推荐内容 */}
               <div className="box-container">{renderBoxes()}</div>;
 
             </div>
-            </div>
-           </div>
+
         </Fragment>
     )
 }

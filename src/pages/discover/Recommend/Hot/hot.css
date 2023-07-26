@@ -4,6 +4,7 @@ a {
 .recommend-conent {
   padding: 20px 20px 40px;
   margin-right: 251px;
+  height: 1000px;
   border: 1px solid #d3d3d3;
 }
 .recommend-conent .recommend-header {
@@ -11,7 +12,7 @@ a {
   padding: 0 10px 0 34px;
   background-position: -225px -156px;
   border-bottom: 2px solid #c10d0c;
-  background-image: url(../styles/index.png);
+  background: url(../styles/index.png) 0 9999px;
   background-repeat: no-repeat;
 }
 .recommend-conent .recommend-header .tit {
