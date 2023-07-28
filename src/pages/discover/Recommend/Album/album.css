@@ -2,7 +2,7 @@
   height: 33px;
   padding: 0 10px 0 34px;
   background-position: -225px -156px;
-  border-bottom: 2px solid #C10D0C;
+  border-bottom: 2px solid #c10d0c;
   background-image: url("../styles/index.png");
   background-repeat: no-repeat;
 }
@@ -25,4 +25,29 @@
   padding-left: 16px;
   background: #f5f5f5;
   border: 1px solid #fff;
+}
+.new-albums-carousel {
+  float: left;
+  width: 645px;
+  height: 180px;
+  overflow: hidden;
+}
+.carousel-container {
+  position: relative;
+}
+.slick-arrow .slick-prev {
+  position: absolute;
+  top: 71px;
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  z-index: 10;
+}
+.prev-arrow {
+  left: 4px;
+  background-position: -280px -75px;
+  background-image: url("../styles/index.png");
+}
+.next-arrow {
+  right: 10px;
 }
