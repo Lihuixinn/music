@@ -8,7 +8,6 @@
   width: 80px;
   height: 80px;
   position: relative;
-  background-image: url("../styles/bs.jpg");
   background-size: 100%;
 }
 .top .tit {
@@ -30,5 +29,4 @@
   margin-right: 10px;
   text-indent: -9999px;
   background-position: -267px -205px;
-  background-image: url("../styles/index.png");
 }
