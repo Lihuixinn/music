@@ -1,6 +1,7 @@
 import React, { useEffect,Fragment } from 'react'
 import { Link } from "react-router-dom";
 import More from "../More/index"
+import Album from "../Album/index"
 import "./hot.css"
 
 const navList = [
@@ -82,6 +83,7 @@ const Hot :React.FC =()=>{
               {/* 热门推荐内容 */}
               <div className="box-container">{renderBoxes()}</div>;
 
+               <Album/>
             </div>
 
         </Fragment>

@@ -1,0 +1,28 @@
+.n-new {
+  height: 33px;
+  padding: 0 10px 0 34px;
+  background-position: -225px -156px;
+  border-bottom: 2px solid #C10D0C;
+  background-image: url("../styles/index.png");
+  background-repeat: no-repeat;
+}
+.n-new .tit {
+  color: #333;
+  float: left;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 28px;
+}
+.n-disk {
+  position: relative;
+  zoom: 1;
+  height: 186px;
+  margin: 20px 0 37px;
+  border: 1px solid #d3d3d3;
+}
+.n-disk .inner {
+  height: 184px;
+  padding-left: 16px;
+  background: #f5f5f5;
+  border: 1px solid #fff;
+}
