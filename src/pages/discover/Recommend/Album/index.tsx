@@ -24,7 +24,7 @@ const Album:React.FC = ()=>{
         {
           id: 2,
           name: 'Album 2',
-          cover: 'https://p4.music.126.net/xpwUbmJpoH7FhxviMzkSuA==/109951168745649812.jpg?param=100y100',
+          cover: 'https://p4.music.126.net/ZN-r5NJafXOR8umlSyrXeg==/109951168757796012.jpg?param=100y100',
         },
         {
             id: 3,
@@ -34,7 +34,7 @@ const Album:React.FC = ()=>{
           {
             id: 4,
             name: 'Album 4',
-            cover: 'https://p4.music.126.net/xpwUbmJpoH7FhxviMzkSuA==/109951168745649812.jpg?param=100y100',
+            cover: 'https://p4.music.126.net/q-ytnx9kbCzVU3NQsH36sA==/109951168748925377.jpg?param=100y100',
           },
           {
             id: 5,
@@ -44,7 +44,27 @@ const Album:React.FC = ()=>{
           {
             id: 6,
             name: 'Album 4',
-            cover: 'https://p4.music.126.net/xpwUbmJpoH7FhxviMzkSuA==/109951168745649812.jpg?param=100y100',
+            cover: 'https://p4.music.126.net/ESnRSozDWJ7jXia6nYz6AA==/109951168769797233.jpg?param=100y100',
+          },
+          {
+            id: 7,
+            name: 'Album 7',
+            cover: 'https://p4.music.126.net/ESnRSozDWJ7jXia6nYz6AA==/109951168769797233.jpg?param=100y100',
+          },
+          {
+            id: 8,
+            name: 'Album 8',
+            cover: 'https://p4.music.126.net/ESnRSozDWJ7jXia6nYz6AA==/109951168769797233.jpg?param=100y100',
+          },
+          {
+            id: 9,
+            name: 'Album 9',
+            cover: 'https://p4.music.126.net/5Ax6aNOMn-mwF6IwYWJKMg==/109951168771978885.jpg?param=100y100',
+          },
+          {
+            id: 10,
+            name: 'Album 10',
+            cover: 'https://p4.music.126.net/5Ax6aNOMn-mwF6IwYWJKMg==/109951168771978885.jpg?param=100y100',
           },
        
         // 其他专辑数据
@@ -54,8 +74,8 @@ const Album:React.FC = ()=>{
         dots: false, // 设置dots为false，去掉轮播点
         infinite: true,
         speed: 500,
-        slidesToShow: 5, // 每次显示4张图片
-        slidesToScroll: 3, // 每次滚动1张图片,
+        slidesToShow: 5, // 每次显示5张图片
+        slidesToScroll: 5, // 每次滚动5张图片,
         prevArrow: <div className="prev-arrow" />,
         nextArrow: <div className="next-arrow" />,
         responsive: [
@@ -83,12 +103,17 @@ const Album:React.FC = ()=>{
                 
               <Slider {...settings}>
                 {albums.map(album => (
-                <div key={album.id} className="album-item">
+                  <li className="album-list">
+                    <div key={album.id} className="album-item">
                     <img src={album.cover} alt={album.name} />
+                    <Link to="/" className="msk"></Link>
                     <p>{album.name}</p>
                 </div>
+              </li>
+                
                 ))}
             </Slider>
+            
               </div>  
             </div>
         </Fragment>

@@ -2,6 +2,7 @@ import React, { useEffect,Fragment } from 'react'
 import { Link } from "react-router-dom";
 import More from "../More/index"
 import Album from "../Album/index"
+import Toplist from '../toplist';
 import "./hot.css"
 
 const navList = [
@@ -84,6 +85,7 @@ const Hot :React.FC =()=>{
               <div className="box-container">{renderBoxes()}</div>;
 
                <Album/>
+               <Toplist/>
             </div>
 
         </Fragment>
