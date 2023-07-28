@@ -1,12 +1,13 @@
 .recommend-box {
-  position: relative;
+  /* position: relative; */
   background: #f3f2f2;
+  /* background-image: url("./wrap1.png"); */
 }
 .recommend-box .recommend {
   margin: 0 auto;
   width: 980px;
   min-height: 700px;
-  height: 1000px;
+  height: 1375px;
   border: 1px solid #d3d3d3;
   border-width: 0 1px;
   background-color: white;

@@ -1,0 +1,25 @@
+.toplist {
+  height: 33px;
+  padding: 0 10px 0 34px;
+  background-position: -225px -156px;
+  border-bottom: 2px solid #C10D0C;
+  background-image: url("../styles/index.png");
+  background-repeat: no-repeat;
+}
+.toplist .tit {
+  color: #333;
+  float: left;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 28px;
+}
+.n-blist {
+  height: 472px;
+  margin-top: 20px;
+  padding-left: 1px;
+  background-image: url("../styles/index_bill.png");
+}
+.n-blist .blk {
+  float: left;
+  width: 230px;
+}
