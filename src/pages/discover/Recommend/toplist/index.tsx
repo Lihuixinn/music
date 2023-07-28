@@ -15,8 +15,12 @@ const Toplist:React.FC = ()=>{
         <dl className="blk">
           <Top/>
         </dl>
-        <dl className="blk"></dl>
-        <dl className="blk"></dl>
+        <dl className="blk">
+          <Top></Top>
+        </dl>
+        <dl className="blk blk1">
+          <Top></Top>
+        </dl>
       </div>
     </Fragment>
 

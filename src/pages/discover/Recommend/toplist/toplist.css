@@ -14,6 +14,7 @@
   line-height: 28px;
 }
 .n-blist {
+  width: 689px;
   height: 472px;
   margin-top: 20px;
   padding-left: 1px;
@@ -22,4 +23,8 @@
 .n-blist .blk {
   float: left;
   width: 230px;
+}
+.n-blist .blk1 {
+  float: left;
+  width: 228px;
 }
