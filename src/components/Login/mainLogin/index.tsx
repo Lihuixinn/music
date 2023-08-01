@@ -12,12 +12,13 @@ enum STATUS {
     EMAIL = 'email',
     ENROLL = 'enroll'
   }
-  
-function MainLogin() {
+
+
+  const MainLogin: React.FC = () => {
+   
+
     const labelStyle: React.CSSProperties = { marginLeft: '2px' }
     const protocolStyle: React.CSSProperties = { color: '#507DAF' }
-  
-
 
   return (
     <div className='login-main' >
@@ -35,7 +36,6 @@ function MainLogin() {
           <ul>
             <li>
               <a
-                
                 className='hover'
                 href="https://music.163.com/api/sns/authorize?snsType=10&amp;clientType=web2&amp;callbackType=Login&amp;forcelogin=true"
                 target="_blank"
