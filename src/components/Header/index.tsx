@@ -4,6 +4,7 @@ import Right from "../Header/right"
 import BottomNav from "../Header/bottomNav"
 import  './styles/index.css'
 
+
 const Header:React.FC=()=>{
  
     return(

@@ -15,7 +15,7 @@ const Right:React.FC=()=>{
     },
     {
       name: '排行榜',
-      path: '',
+      path: '/toplist',
       isClick:false,
     },
     {
@@ -57,7 +57,7 @@ const Right:React.FC=()=>{
                   {
                     redNav.map((redNav,index)=>{
                         return <li key={index} className="redList" >
-                            <NavLink to="/" className="redlink" onClick={()=>handleClick(index)} style={{backgroundColor:redNav.isClick?"#9B0909":'#c20c0c'}}> {redNav.name}</NavLink >
+                            <NavLink to={redNav.path} className="redlink" onClick={()=>handleClick(index)} style={{backgroundColor:redNav.isClick?"#9B0909":'#c20c0c'}}> {redNav.name}</NavLink >
                         </li>
                     })
                   }

@@ -8,7 +8,7 @@ const Right:React.FC=()=>{
             <div className="top-right">
                 {/* 登录信息 */}
                 <div className="login">
-                    <Link to='/'>登录</Link>
+                    <Link to='/login'>登录</Link>
                 </div>
                  {/* 创作者中心 */}
                  <div className="author">
