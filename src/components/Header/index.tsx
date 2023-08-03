@@ -6,7 +6,7 @@ import  './styles/index.css'
 
 
 const Header:React.FC=()=>{
- 
+
     return(
        <div>
          <div className='top-box'>

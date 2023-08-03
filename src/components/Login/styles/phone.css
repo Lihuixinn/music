@@ -1,0 +1,103 @@
+.phone {
+  width: 320px;
+  min-height: 280px;
+  height: 262px;
+  margin: 0 auto;
+  padding: 30px 0 43px;
+}
+.phone .input {
+  margin-top: 50px;
+  height: 36px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+.phone .input .u-input {
+  position: relative;
+  float: left;
+}
+.phone .input .u-input input {
+  position: absolute;
+  width: 251px;
+  height: 30px;
+  left: 60px;
+  font-size: 14px;
+  border: none;
+  outline: none;
+  border-radius: 0  20px  20px 0;
+}
+.phone .input .u-input .mobile {
+  background-position: -349px -343px;
+  width: 54px;
+  height: 34px;
+  line-height: 34px;
+  border-radius: 20px;
+  background-image: url("https://urswebzj.nosdn.127.net/webzj_cdn101/sprite_61fbe151ab715649c6b7c4ec39156201.png");
+}
+.phone .input .u-input .mobile em {
+  height: 11px;
+  line-height: 11px;
+  display: inline-block;
+  margin-top: 13px;
+  margin-left: 10px;
+}
+.phone .m-dxyz {
+  position: relative;
+  float: left;
+  overflow: hidden;
+  width: 193px;
+  height: 36px;
+  margin-top: 30px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+.phone .m-dxyz input {
+  position: absolute;
+  top: 4px;
+  left: 10px;
+  width: 175px;
+  height: 25px;
+  color: #bdbdbd;
+  font-size: 14px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}
+.phone .pcbtn {
+  width: 119px;
+  height: 36px;
+  margin-left: 8px;
+  margin-top: 30px;
+  border-radius: 20px;
+  background-color: #ff3a3a;
+  display: inline-block;
+}
+.phone .pcbtn label {
+  position: absolute;
+  right: 135px;
+  top: 192px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: normal;
+}
+.phone .power-btn {
+  width: 320px;
+  height: 36px;
+  margin-top: 24px;
+  background-color: #ff3a3a;
+  border-radius: 20px;
+}
+.phone .power-btn a {
+  display: block;
+  line-height: 36px;
+  font-size: 14px;
+  color: #fff;
+  text-align: center;
+}
+.phone .pasLogin {
+  display: flex;
+  position: absolute;
+  bottom: 45px;
+  color: #666;
+}

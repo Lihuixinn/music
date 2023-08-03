@@ -3,20 +3,15 @@
  */
 import React, { useState, useContext, MouseEvent, useCallback } from 'react'
 import "../styles/main.css"
+import Context from 'react-redux/es/components/Context';
+import PubSub from 'pubsub-js'
 
-// 5个状态，对应主界面、二维码登录、(手机验证码登录、手机密码登录)、网易邮箱登录、注册
-enum STATUS {
-    MAIN = 'main',
-    QR = 'qr',
-    PHONE = 'phone',
-    EMAIL = 'email',
-    ENROLL = 'enroll'
-  }
 
 
   const MainLogin: React.FC = () => {
-   
-
+    
+      
+    
     const labelStyle: React.CSSProperties = { marginLeft: '2px' }
     const protocolStyle: React.CSSProperties = { color: '#507DAF' }
 
@@ -87,4 +82,5 @@ enum STATUS {
   )
 }
 
-export default MainLogin
+export default MainLogin;
+

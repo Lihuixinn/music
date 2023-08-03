@@ -1,14 +1,37 @@
-import React, {  } from "react";
+import React, { useState } from "react";
 import "../styles/right.css"
 import { Link } from "react-router-dom";
 import {SearchOutlined} from "@ant-design/icons"
+import Login from "../../Login";
 
-const Right:React.FC=()=>{
+
+
+const Right:React.FC=() => {
+
+    const [showLogin, setShowLogin] = useState(false);
+
+    const handleLoginButtonClick = () => {
+      setShowLogin(true);
+    };
+  
+    const handleCloseButtonClicked = () => {
+      setShowLogin(false);
+    };
+    
         return(
             <div className="top-right">
                 {/* 登录信息 */}
                 <div className="login">
-                    <Link to='/login'>登录</Link>
+                  {
+                   
+                        <Link to='/' onClick={handleLoginButtonClick}>登录</Link>
+                 
+                  }
+                  {
+                    showLogin &&(
+                        <Login onClose={handleCloseButtonClicked}/>
+                    )
+                  }
                 </div>
                  {/* 创作者中心 */}
                  <div className="author">
@@ -26,7 +49,6 @@ const Right:React.FC=()=>{
                     </div>
                 </div>
 
-               
             
                 
             </div>

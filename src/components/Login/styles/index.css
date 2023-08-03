@@ -2,6 +2,8 @@
   position: fixed;
   left: 35%;
   top: 30%;
+  z-index: 999;
+  background-color: #fff;
 }
 .modal-center .modal-container {
   position: relative;
