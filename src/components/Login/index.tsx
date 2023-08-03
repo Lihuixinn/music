@@ -9,6 +9,13 @@ import Phone from "./phone";
 
 
 const Login: React.FC<any>= ({onClose}) => {
+  const [currentLoginMode, setCurrentLoginMode] = useState("qrcode");
+
+  const handleSwitchLoginMode = () => {
+    setCurrentLoginMode((prevMode) =>
+      prevMode === "qrcode" ? "phone" : "qrcode"
+    );
+  };
 
   return (
     <div className="modal-center " >
@@ -18,13 +25,16 @@ const Login: React.FC<any>= ({onClose}) => {
           <i className="modal-close" onClick={onClose} >×</i>
           
         </div>
-        
-       
           {/* <MainLogin  /> */}
+          {currentLoginMode === "qrcode" ? (
+            <QRLogin onSwitchLoginMode={handleSwitchLoginMode} />
+          ) : (
+            <MainLogin onSwitchLoginMode={handleSwitchLoginMode} />
+          )}
     
           {/* <QRLogin /> */}
          
-          <Phone/>
+          {/* <Phone/> */}
           
       </div>
     </div>

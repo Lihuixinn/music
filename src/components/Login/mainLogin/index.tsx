@@ -4,13 +4,10 @@
 import React, { useState, useContext, MouseEvent, useCallback } from 'react'
 import "../styles/main.css"
 import Context from 'react-redux/es/components/Context';
-import PubSub from 'pubsub-js'
 
 
+  const MainLogin: React.FC<any> = ({ onSwitchLoginMode }) => {
 
-  const MainLogin: React.FC = () => {
-    
-      
     
     const labelStyle: React.CSSProperties = { marginLeft: '2px' }
     const protocolStyle: React.CSSProperties = { color: '#507DAF' }
@@ -77,7 +74,7 @@ import PubSub from 'pubsub-js'
         <a className='hover' style={protocolStyle} href="http://st.music.163.com/official-terms/privacy" target="_blank" rel="noreferrer">《隐私政策》</a>
         <a className='hover' style={protocolStyle} href="https://st.music.163.com/official-terms/children" target="_blank" rel="noreferrer">《儿童隐私政策》</a>
       </div>
-      <div className='login-scan pointer' ></div>
+      <div className='login-scan pointer'onClick={onSwitchLoginMode} ></div>
     </div>
   )
 }
