@@ -45,15 +45,15 @@ const Phone:React.FC<any>=({onReturnClick})=> {
         <section>
           <div className='password'>
             <div className='Yms'><em>+86</em></div>
-            <input type="text" placeholder='请输入手机号' />
+            <input type="text" placeholder='请输入手机号'id='pasInput' />
             <div className='cWb'>
-              <input type="password" placeholder='请输入密码' id='pasInput' />
+              <input type="password" placeholder='请输入密码'  />
               <Link to="/">忘记密码?</Link>
             </div>
             <div className='dx'>
               <Link to="/" id='dxLink' >短信登录</Link>
               <label htmlFor="">
-              <input type="checkbox" checked id='checked'/>
+              <input type="checkbox" id='checked'/>
               自动登录
               </label>
               
