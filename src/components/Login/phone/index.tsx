@@ -11,11 +11,16 @@ import MainLogin from '../mainLogin'
 
 
 const Phone:React.FC<any>=({onReturnClick})=> {
+  const [showPasswordLogin, setShowPasswordLogin] = useState(true);
+  // 点击事件处理函数
+  const handleClick = () => {
+    setShowPasswordLogin(false);
+  };
 
   return (
     <div className='phone'>
+      {showPasswordLogin ? ( 
       <div>
-       
         <div className='input'>
           <div className='u-input'>
             <input type="text" placeholder='请输入手机号' />
@@ -32,11 +37,42 @@ const Phone:React.FC<any>=({onReturnClick})=> {
         <div className='power-btn'>
             <Link to="/">登录</Link>
         </div>
-          
-          <div className='pasLogin'>
-              <Link to=''>密码登录</Link>
-          </div>
+        <div className='pasLogin'>
+        <Link to='' onClick={handleClick}>密码登录</Link>
       </div>
+          
+      </div>):(
+        <section>
+          <div className='password'>
+            <div className='Yms'><em>+86</em></div>
+            <input type="text" placeholder='请输入手机号' />
+            <div className='cWb'>
+              <input type="password" placeholder='请输入密码' id='pasInput' />
+              <Link to="/">忘记密码?</Link>
+            </div>
+            <div className='dx'>
+              <Link to="/" id='dxLink' >短信登录</Link>
+              <label htmlFor="">
+              <input type="checkbox" checked id='checked'/>
+              自动登录
+              </label>
+              
+            </div>
+
+            <div className='password-login-botton'>
+              登录
+            </div>
+          </div>
+        </section>
+      )
+      }
+      
+    
+      {/* 密码登录 */}
+
+
+      
+
        {/* 底部 */}
        <div className='phone-bottom'>
           <Link to='' id='phone-a' onClick={onReturnClick}>&lt;&nbsp;&nbsp;其他登录方式</Link>

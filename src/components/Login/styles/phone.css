@@ -24,7 +24,7 @@
   font-size: 14px;
   border: none;
   outline: none;
-  border-radius: 0  20px  20px 0;
+  border-radius: 0 20px 20px 0;
 }
 .phone .input .u-input .mobile {
   background-position: -349px -343px;
@@ -117,4 +117,91 @@
 .phone-bottom #phone-a {
   font-size: 12px;
   color: #0c72c3;
+}
+section {
+  margin: 0 auto;
+  padding: 30px 0 43px;
+  width: 220px;
+}
+section .password {
+  position: relative;
+  margin: 0;
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid #cdcdcd;
+  border-radius: 2px;
+}
+section .password .Yms {
+  position: relative;
+  float: left;
+  display: block;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 18px 0 5px;
+  border-right: 1px solid #cdcdcd;
+  color: #333;
+}
+section .password #pasInput {
+  padding: 0 8px;
+  width: 68%;
+  height: 100%;
+  outline: none;
+  border: none;
+  color: #333;
+  background: none;
+}
+section .password .cWb {
+  position: relative;
+  margin-top: 10px;
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid #cdcdcd;
+  border-radius: 2px;
+}
+section .password .cWb input {
+  display: block;
+  padding: 0 8px;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  border: none;
+  color: #333;
+  background: none;
+  box-sizing: border-box;
+}
+section .password .cWb a {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #666;
+  text-decoration: none;
+}
+section .password .dx {
+  margin-top: 10px;
+}
+section .password .dx #dxLink {
+  color: #333;
+}
+section .password .dx label {
+  box-sizing: content-box;
+  margin-left: 90px;
+}
+section .password .dx label #checked {
+  margin: 0 6px 0 0;
+}
+section .password .password-login-botton {
+  width: 180px;
+  background-position: 0 -387px;
+  padding: 0 15px 0 20px;
+  height: 100%;
+  color: #fff;
+  cursor: pointer;
+  line-height: 31px;
+  margin-top: 10px;
+  text-align: center;
+  border-radius: 3px;
+  background-image: url("https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/9647896553/4adc/4002/52e9/30a1d480dd30d8de52b23af576be8c48.png");
+}
+section .password .password-login-botton:hover {
+  filter: blur(135%);
 }
