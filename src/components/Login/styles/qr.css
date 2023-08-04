@@ -66,6 +66,7 @@
 }
 .qr .otherbtn {
   height: 28px;
+  cursor: pointer;
 }
 .qr .otherbtn .other {
   width: 118px;

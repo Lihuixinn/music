@@ -3,12 +3,23 @@
  */
 import React, { useState, useContext, MouseEvent, useCallback } from 'react'
 import "../styles/main.css"
+import Phone from "../phone"
 import Context from 'react-redux/es/components/Context';
 
 
   const MainLogin: React.FC<any> = ({ onSwitchLoginMode }) => {
+    const [showPhone, setShowPhone] = useState(false);
+    const handleClick = () => {
+      setShowPhone(true);
+    };
+  
+    const handleReturnClick = () => {
+      setShowPhone(false);
+    };
+      if(showPhone){
+        return<Phone onReturnClick={handleReturnClick}/>
+      }
 
-    
     const labelStyle: React.CSSProperties = { marginLeft: '2px' }
     const protocolStyle: React.CSSProperties = { color: '#507DAF' }
 
@@ -17,11 +28,12 @@ import Context from 'react-redux/es/components/Context';
       <div className='login-log'>
         <div className='login-left'>
           <div className='login-platform'></div>
-          <div className='login-btn1 btn pointer btn-img'>
-            <span className='login-btn2 btn-img' >手机号登录</span>
-          </div>
-          <div className='login-enroll btn pointer btn-img'>
-            <span className='btn-enroll btn-img' >注　册</span>
+          <div className='btn '>
+            {
+              !showPhone && (
+              <span className='login-btn2 btn-img' onClick={handleClick}>手机号登录/注册</span>
+              )
+            }
           </div>
         </div>
         <div className='login-right'>

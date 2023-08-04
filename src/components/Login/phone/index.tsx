@@ -6,12 +6,11 @@ import { STATUS, ISetStateProps } from '../typing'
 
 import "../styles/phone.css"
 import { Link } from 'react-router-dom'
+import MainLogin from '../mainLogin'
 
 
 
-const Phone:React.FC=()=> {
- 
-  
+const Phone:React.FC<any>=({onReturnClick})=> {
 
   return (
     <div className='phone'>
@@ -38,6 +37,10 @@ const Phone:React.FC=()=> {
               <Link to=''>密码登录</Link>
           </div>
       </div>
+       {/* 底部 */}
+       <div className='phone-bottom'>
+          <Link to='' id='phone-a' onClick={onReturnClick}>&lt;&nbsp;&nbsp;其他登录方式</Link>
+        </div>
     </div>
 
   )
