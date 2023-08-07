@@ -1,11 +1,11 @@
 import React,{useState} from "react";
-
 import Header from "./components/Header/index"
 import Discover from "./pages/discover/index"
-// import { Content } from "antd/es/layout/layout"
 import {  Routes, Route, Navigate } from 'react-router-dom';
 import Toplist from "./pages/Toplist";
-import Login from "./components/Login";
+
+
+
 
 
 

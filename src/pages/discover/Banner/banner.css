@@ -1,14 +1,15 @@
 .carousel-box{
-
+  position: relative;
   width: auto;
   height: 285px;
 }
 .carousel{
-  position: relative;
-  left:269px;
+  position: absolute;
   width: 982px;
   height: 285px;
-
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
 }
 .carousel img{
   width: 730px;
@@ -39,11 +40,11 @@
    width: 500px;
    height: 100px;
    bottom: -75px;
-   left: 340px;
+   left: 300px;
 }
 .dots li{
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 18px;
   background-color:white;
   border-radius: 50%;
 }

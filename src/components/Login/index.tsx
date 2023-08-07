@@ -32,9 +32,7 @@ const Login: React.FC<any>= ({onClose}) => {
             <MainLogin onSwitchLoginMode={handleSwitchLoginMode} />
           )}
     
-          {/* <QRLogin /> */}
-         
-          {/* <Phone/> */}
+
           
       </div>
     </div>

@@ -89,7 +89,7 @@ const Carousel = () => {
             key={index}
             className={`dot ${index === currentIndex ? 'back' : ''}`}
             onClick={() => handleDotClick(index) }
-            style={{width:"8px",height:"8px"}} 
+            style={{width:"6px",height:"6px"}} 
           ></li>
         ))}
       </ul>
