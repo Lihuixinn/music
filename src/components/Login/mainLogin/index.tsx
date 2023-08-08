@@ -4,7 +4,6 @@
 import React, { useState, useContext, MouseEvent, useCallback } from 'react'
 import "../styles/main.css"
 import Phone from "../phone"
-import Context from 'react-redux/es/components/Context';
 
 
   const MainLogin: React.FC<any> = ({ onSwitchLoginMode }) => {

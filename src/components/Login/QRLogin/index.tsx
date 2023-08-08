@@ -2,28 +2,101 @@
  * 二维码登录
  */
 
-import React, {  useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, {  Fragment, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import "../styles/qr.css"
-import axios from 'axios';
+import axios from 'axios'
+import { AWAIT, ISetStateProps, STATUS } from '../typing';
+import Context from 'react-redux/es/components/Context';
+import { cancelQR, checkQRCodeStatus, createQRCode, createQRkey } from '../../../api/qrCode';
 
-const QRLogin: React.FC<any> = ({ onSwitchLoginMode })=>{
-  const [qrCode,setQrCode] = useState<string>('')
-  useEffect(() => {
-    // 在组件加载时获取二维码
-    const fetchQrCode = async () => {
-      try {
-        const response = await axios.get('/login/qr/key'); // 发送获取二维码的请求
-        setQrCode(response.data.qrCode); // 将获取到的二维码保存至状态中
-      } catch (error) {
-        console.error('Failed to fetch QR code', error);
-      }
-    };
+interface IProps {
+  stateCode: STATUS
+  props: IProps
+}
+let qrKey: string | null | undefined = null;
+let _STATUS: STATUS
 
-    fetchQrCode();
-  }, []);
-
+const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () => void }, props: IProps)=>{
+  const rootRef = useRef<HTMLDivElement>(null)
+  // canvas
+  const canvasRef = useRef<HTMLCanvasElement>(null)
   // 是否显示刷新器
   const [refresh, setRefresh] = useState(false)
+  // 是否显示已扫码
+  const [state, setState] = useState(AWAIT.PENDING)
+  const { setStateCallback, showComponent } = useContext(Context) as unknown as ISetStateProps
+  
+  useEffect(() => {
+    // 根据状态发请求
+    _STATUS = props.stateCode
+    if (props.stateCode === STATUS.QR && refresh === false) {
+      requestQr()
+    }
+
+    // 发请求
+    async function requestQr() {
+      let timestamp: number
+      let _qrKey: string | null | undefined
+      if (state !== AWAIT.FULLFILLED) {
+        if (cancelQR.cancelCreateQRkey) {
+          cancelQR.cancelCreateQRkey()
+        }
+        const qrKeyRes = await createQRkey()
+        if (!qrKeyRes) return
+        qrKey = qrKeyRes.data.unikey
+        _qrKey = qrKey
+
+        const qrURL: string = (await createQRCode(qrKey as string)).data.qrimg
+        const img = new Image()
+        img.src = qrURL
+        img.onload = function () {
+          if (canvasRef.current) {
+            const ctx: CanvasRenderingContext2D | null = canvasRef.current.getContext('2d')
+            ctx?.drawImage(img, -15, -15, 160, 160)
+          }
+        }
+
+        if (_STATUS !== STATUS.QR || _qrKey !== qrKey) {
+          return
+        }
+      }
+      checkQr()
+
+      async function checkQr() {
+        if (_STATUS !== STATUS.QR || _qrKey !== qrKey) {
+          return
+        }
+        !timestamp && (timestamp = Date.now())
+
+        const stauts: any = await checkQRCodeStatus(qrKey as string)
+        if (!stauts) return
+        // 超出60秒停止轮询，并弹出刷新框
+        if (Date.now() - timestamp >= 60000) {
+          setRefresh(true)
+          qrKey = null
+        }
+
+        if (stauts.code === 802) {
+          setState(AWAIT.FULLFILLED)
+          timestamp = Date.now()
+        } else if (stauts.code === 803) {
+          qrKey = null
+          window.location.reload()
+          window.scrollTo(0, 0)
+        }
+
+        if (qrKey) window.setTimeout(checkQr)
+      }
+    }
+
+    return () => {
+      const r = rootRef
+      if (props.stateCode !== STATUS.QR || refresh || !r.current) {
+        qrKey = null
+      }
+    }
+  }, [props.stateCode, refresh, state])
+
 
   const refreshClick = useCallback(() => {
     setRefresh(false)
@@ -33,28 +106,36 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode })=>{
     display: refresh ? 'block' : 'none'
   }), [refresh])
 
-
-    return (
-    <div className='qr'>
-      <div className='qr_main'>
-        <div className='qr_phone'></div>
-        <div className='right'>
-          <div className='title'>扫码登录</div>
-
-          <div className='qr_code'>
-            <div className='qr_code_content'>
-              <canvas  width={130} height={130}></canvas>
-              <div className='refresh' style={refreshStyles}>
-                <p>二维码已失效</p>
-                <button onClick={refreshClick}>点击刷新</button>
-              </div>
-            </div>
+  const Scan = useMemo(()=>({
+    <Fragment>
+    <div className='qr_main'>
+    <div className='qr_phone'></div>
+    <div className='right'>
+      <div className='title'>扫码登录</div>
+      
+      <div className='qr_code'>
+        <div className='qr_code_content'>
+          <canvas ref={canvasRef}  width={130} height={130}></canvas>
+          <div className='refresh' style={refreshStyles}>
+            <p>二维码已失效</p>
+            <button >点击刷新</button>
           </div>
-          <p className="txt">
-            使用&nbsp;<a className="download-link hover" href="https://music.163.com/#/download" target="_blank" rel="noreferrer">网易云音乐APP</a>&nbsp;扫码登录
-          </p>
         </div>
       </div>
+      <p className="txt">
+        使用&nbsp;<a className="download-link hover" href="https://music.163.com/#/download" target="_blank" rel="noreferrer">网易云音乐APP</a>&nbsp;扫码登录
+      </p>
+    </div>
+  </div>
+    </Fragment>
+  }), [refreshStyles, refreshClick])
+
+    return (
+    <div className='qr' style={showComponent(STATUS.QR)} ref={rootRef} >
+       {
+        state === AWAIT.PENDING ? Scan : Success
+      }
+   
       <div className='otherbtn'>
           <div className='other pointer' onClick={onSwitchLoginMode}>选择其他登录模式</div>
       </div>
