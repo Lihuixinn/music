@@ -6,7 +6,9 @@ import { STATUS, ISetStateProps } from '../typing'
 
 import "../styles/phone.css"
 import { Link } from 'react-router-dom'
+
 import MainLogin from '../mainLogin'
+
 
 
 
@@ -17,10 +19,11 @@ const Phone:React.FC<any>=({onReturnClick})=> {
     setShowPasswordLogin(false);
   };
 
+
   return (
     <div className='phone'>
       {showPasswordLogin ? ( 
-      <div>
+      <form >
         <div className='input'>
           <div className='u-input'>
             <input type="text" placeholder='请输入手机号' />
@@ -41,7 +44,7 @@ const Phone:React.FC<any>=({onReturnClick})=> {
         <Link to='' onClick={handleClick}>密码登录</Link>
       </div>
           
-      </div>):(
+      </form>):(
         <section>
           <div className='password'>
             <div className='Yms'><em>+86</em></div>

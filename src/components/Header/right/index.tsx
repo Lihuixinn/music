@@ -9,7 +9,7 @@ import Login from "../../Login";
 const Right:React.FC=() => {
 
     const [showLogin, setShowLogin] = useState(false);
-
+    
     const handleLoginButtonClick = () => {
       setShowLogin(true);
     };
