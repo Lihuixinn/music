@@ -106,34 +106,34 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () =
     display: refresh ? 'block' : 'none'
   }), [refresh])
 
-  const Scan = useMemo(()=>({
+  const Scan = useMemo(()=>(
     <Fragment>
-    <div className='qr_main'>
-    <div className='qr_phone'></div>
-    <div className='right'>
-      <div className='title'>扫码登录</div>
-      
-      <div className='qr_code'>
-        <div className='qr_code_content'>
-          <canvas ref={canvasRef}  width={130} height={130}></canvas>
-          <div className='refresh' style={refreshStyles}>
-            <p>二维码已失效</p>
-            <button >点击刷新</button>
+        <div className='qr_main'>
+        <div className='qr_phone'></div>
+        <div className='right'>
+          <div className='title'>扫码登录</div>
+          
+          <div className='qr_code'>
+            <div className='qr_code_content'>
+              <canvas ref={canvasRef}  width={130} height={130}></canvas>
+              <div className='refresh' style={refreshStyles}>
+                <p>二维码已失效</p>
+                <button >点击刷新</button>
+              </div>
+            </div>
           </div>
+          <p className="txt">
+            使用&nbsp;<a className="download-link hover" href="https://music.163.com/#/download" target="_blank" rel="noreferrer">网易云音乐APP</a>&nbsp;扫码登录
+          </p>
         </div>
       </div>
-      <p className="txt">
-        使用&nbsp;<a className="download-link hover" href="https://music.163.com/#/download" target="_blank" rel="noreferrer">网易云音乐APP</a>&nbsp;扫码登录
-      </p>
-    </div>
-  </div>
     </Fragment>
-  }), [refreshStyles, refreshClick])
+  ), [refreshStyles, refreshClick])
 
     return (
     <div className='qr' style={showComponent(STATUS.QR)} ref={rootRef} >
        {
-        state === AWAIT.PENDING ? Scan : Success
+        state === AWAIT.PENDING ? Scan : ""
       }
    
       <div className='otherbtn'>
