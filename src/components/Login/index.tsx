@@ -2,10 +2,7 @@ import React, { useCallback, useState, } from "react";
 import MainLogin from "./mainLogin";
 import QRLogin from "./QRLogin";
 import "./styles/index.css";
-import PubSub from 'pubsub-js'
-import Context from "react-redux/es/components/Context";
-import { STATUS } from './typing'
-import Phone from "./phone";
+
 
 
 const Login: React.FC<any>= ({onClose}) => {

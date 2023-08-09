@@ -19,6 +19,7 @@
     "i": "^0.3.7",
     "npm": "^9.8.1",
     "pubsub-js": "^1.9.4",
+    "qrcode": "^1.5.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.2",
@@ -60,11 +61,13 @@
   },
   "devDependencies": {
     "@types/pubsub-js": "^1.8.3",
+    "@types/qrcode": "^1.5.1",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-slick": "^0.23.10",
     "less": "^4.1.3",
     "less-loader": "^11.1.3",
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6"
-  }
+  },
+  "proxy":"https://netease-cloud-music-api-zeta-bice.vercel.app"
 }

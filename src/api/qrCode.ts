@@ -19,6 +19,7 @@ function createQRkey() {
     url: `/login/qr/key`,
     method: 'POST',
     headers: {
+      // "Access-Control-Allow-Origin":"*",
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     
@@ -32,12 +33,13 @@ function createQRkey() {
 /**
  * 生成二维码图片
  */
-function createQRCode(key: string) {
+function createQRCode(key:string) {
   return request({
     url: `/login/qr/create`,
     method: 'POST',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      // "Access-Control-Allow-Origin":"*"
     },
   })
 }
@@ -54,6 +56,7 @@ function checkQRCodeStatus(key: string) {
     url: `/login/qr/check`,
     method: 'POST',
     headers: {
+      // "Access-Control-Allow-Origin":"*",
       'Content-Type': 'application/x-www-form-urlencoded'
     },
   })
