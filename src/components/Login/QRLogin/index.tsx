@@ -24,7 +24,7 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () =
   const [refresh, setRefresh] = useState(false)
   // 是否显示已扫码
   const [state, setState] = useState(AWAIT.PENDING)
-  const { setStateCallback, showComponent } = useContext(Context) as unknown as ISetStateProps
+  
   
   useEffect(() => {
     // 根据状态发请求
@@ -130,10 +130,20 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () =
     </Fragment>
   ), [refreshStyles, refreshClick])
 
+  const Success = useMemo(() => (
+    <Fragment>
+      <div className='suc'>
+        <div className='suc-icon'></div>
+        <p className='suc-txt'>扫描成功</p>
+      </div>
+      <div className='confirm'>请在手机上确认登录</div>
+    </Fragment>
+  ), [])
+
     return (
-    <div className='qr' style={showComponent(STATUS.QR)} ref={rootRef} >
+    <div className='qr'  ref={rootRef} >
        {
-        state === AWAIT.PENDING ? Scan : ""
+        state === AWAIT.PENDING ? Scan : Success
       }
    
       <div className='otherbtn'>
