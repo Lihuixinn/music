@@ -16,6 +16,7 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () =
   const rootRef = useRef<HTMLDivElement>(null)
   // 是否显示刷新器
   const [refresh, setRefresh] = useState(false)
+  const [refreshButtonClicked, setRefreshButtonClicked] = useState<boolean>(false);
   // 是否显示已扫码
   const [timestamp, setTimestamp] = useState(Date.now());
   const [state, setState] = useState(AWAIT.PENDING)
@@ -23,6 +24,9 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () =
   const [qrCodeKey, setQRCodeKey] = useState('');
   const [qrCodeURL, setQRCodeURL] = useState('');
   const [loginStatus, setLoginStatus] = useState('');
+// 显示是否登录
+  const [scannedSuccess, setScannedSuccess] = useState(false);
+  const [confirmLogin, setConfirmLogin] = useState(false);
 
 
 
@@ -71,14 +75,16 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () =
   async function getQRCode() {
     try {
       const response1 = await createQRkey();
-      console.log(response1)
+      console.log("1212",response1)
       const uniKey = response1.data.unikey;
       if (response1 && response1.data) {
         setQRCodeKey(response1.data.unikey);
       } else {
         console.error('Invalid response');
       }
-      checkLoginStatus(uniKey);
+      if (refreshButtonClicked === false) {
+        checkLoginStatus(uniKey);
+      }
       fetchData(uniKey);
     } catch (error) {
       console.error('获取二维码失败:', error);
@@ -98,33 +104,31 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () =
  // 开始轮询
 const checkLoginStatus = useCallback(async (uniKey: string) => {
   try {
-    console.log("checkLoginStatus被调用了的第三次")
-    let timestamp:number = Date.now()
+    const currentTimestamp = Date.now(); // 获取当前时间戳
     const response:any = await checkQRCodeStatus(uniKey);
     console.log("response响应了吗",response)
-    const { data: { code } } = response;
-    if (!response || !response.data) return;
-    if (Date.now() - timestamp >= 60000) {
+    console.log("response.code:",response.code)
+    if (!response) return;
+    if (currentTimestamp - timestamp >= 60000) {
       setRefresh(true);
-      setTimestamp(Date.now()); // 更新时间戳
-    } else if (code === 801) {
+      uniKey = "";
+      setTimestamp(currentTimestamp); // 更新时间戳
+    } else if (response.code === 801) {
       // 等待扫码中...
-      setLoginStatus('等待扫码中...');
+      setLoginStatus(response.message);
       setRefresh(true);
-    } else if (code === 802) {
-      timestamp = Date.now()
-      // 待确认...
+    } else if (response.code === 802) {
       setRefresh(true); 
-      setLoginStatus('待确认...');
-    } else if (code === 803) {
-      
+      setLoginStatus(response.message);
+    } else if (response.code === 803) {
+      uniKey = "";
+      setScannedSuccess(true);
+      setConfirmLogin(true);
+      setLoginStatus(response.message);
       setRefresh(false);
-      // 登录成功
-      setLoginStatus('登录成功');
     }
   } catch (error) {
     console.error(error);
-    // 处理错误情况
   }
 },  [timestamp]);
 
@@ -135,22 +139,23 @@ useEffect(() => {
     console.log("checkLoginStatus被调用了的第一次")
     const intervalId = setInterval(() => {
       console.log("checkLoginStatus被调用了的第二次")
-      checkLoginStatus("");
+      checkLoginStatus(qrCodeKey);
       setRefresh(true); // 手动设置refresh为true，确保立即显示刷新按钮
     }, 60000);
     return () => {
       // 清除定时器
       clearInterval(intervalId);
     };
-}, [checkLoginStatus]);
+}, [refreshButtonClicked]);
 
   // 按钮刷新
   const refreshClick = useCallback(() => {
     setRefresh(false)
+    
   }, [])
   // 获取新的二维码之后按钮隐藏
     const handleRefresh = useCallback(() => {
-      getQRCode();
+      setRefreshButtonClicked(true);
       setRefresh(false); // 重置 refresh 状态
     }, []);
 
@@ -183,13 +188,14 @@ useEffect(() => {
 
   const Success = useMemo(() => (
     <Fragment>
+      {scannedSuccess && (
       <div className='suc'>
         <div className='suc-icon'></div>
         <p className='suc-txt'>扫描成功</p>
-      </div>
-      <div className='confirm'>请在手机上确认登录</div>
+      </div>)}
+      {confirmLogin &&<div className='confirm'>请在手机上确认登录</div>}
     </Fragment>
-  ), [])
+  ), [scannedSuccess, confirmLogin]);
 
     return (
     <div className='qr'  ref={rootRef} >

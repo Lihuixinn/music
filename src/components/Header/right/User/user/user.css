@@ -1,0 +1,77 @@
+.user {
+  position: relative;
+  height: 45px;
+  margin: 19px 0 0 20px;
+  padding: 0 22px 0 0;
+}
+.user:hover .m-tlist {
+  display: block;
+}
+.user .login {
+  display: block;
+  width: 28px;
+  margin-top: 8px;
+  color: #787878;
+}
+.user .head {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  margin-top: 1px;
+}
+.user .head img {
+  border-radius: 30px;
+  width: 30px;
+  height: 30px;
+}
+.user .m-tlist {
+  display: none;
+  position: absolute;
+  top: 38px;
+  right: -43px;
+  width: 158px;
+  background: #2b2b2b;
+  border: 1px solid #202020;
+  box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+}
+.user .m-tlist:hover {
+  display: block;
+}
+.user .m-tlist li {
+  box-sizing: border-box;
+  width: 100%;
+}
+.user .m-tlist li a,
+.user .m-tlist li span {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 34px;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding-left: 24px;
+  color: #ccc;
+  line-height: 34px;
+}
+.user .m-tlist li a:hover,
+.user .m-tlist li span:hover {
+  background: #353535;
+  text-decoration: none;
+  color: #fff;
+}
+.user .m-tlist li a .icn,
+.user .m-tlist li span .icn {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+}
+.user .m-tlist .arr {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 14px;
+  height: 8px;
+  margin-left: -8px;
+  background-position: -20px 0;
+}
