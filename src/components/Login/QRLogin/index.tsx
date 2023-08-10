@@ -6,8 +6,7 @@ import React, {  Fragment, useCallback,  useEffect, useMemo, useRef, useState } 
 import "../styles/qr.css"
 import { AWAIT, ISetStateProps, STATUS } from '../typing';
 // import Context from 'react-redux/es/components/Context';
-import { cancelQR, checkQRCodeStatus, createQRCode, createQRkey, } from '../../../api/qrCode';
-import { timestamp } from '../../../utils';
+import {  checkQRCodeStatus, createQRCode, createQRkey, } from '../../../api/qrCode';
 
 interface IProps {
   stateCode: STATUS
@@ -18,13 +17,14 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () =
   // 是否显示刷新器
   const [refresh, setRefresh] = useState(false)
   // 是否显示已扫码
+  const [timestamp, setTimestamp] = useState(Date.now());
   const [state, setState] = useState(AWAIT.PENDING)
 // 显示二维码
   const [qrCodeKey, setQRCodeKey] = useState('');
   const [qrCodeURL, setQRCodeURL] = useState('');
   const [loginStatus, setLoginStatus] = useState('');
 
-
+// 按钮刷新
   const refreshClick = useCallback(() => {
     setRefresh(false)
   }, [])
@@ -71,64 +71,61 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () =
 //   }, []);
 
   // 获取二维码key和图片
-  
   async function getQRCode() {
     try {
-      let count = 1;
-      console.log("count,",count)
-      count++;
-      console.log("count的最终结果",count)
       const response1 = await createQRkey();
-      let qrCodeKey = response1.data.unikey
       console.log(response1)
+      const uniKey = response1.data.unikey;
       if (response1 && response1.data) {
         setQRCodeKey(response1.data.unikey);
       } else {
         console.error('Invalid response');
-        // 处理错误情况
       }
+      checkLoginStatus(uniKey);
+      fetchData(uniKey);
     } catch (error) {
       console.error('获取二维码失败:', error);
     }
-
-    
-    const fetchData = async () => {
-      try {
-         
-          // console.log(qrCodeURL);
-          const response2 = await createQRCode(qrCodeKey);
-          console.log("1111",response2);
-          const qrCodeURL = response2.data.qrimg;
-          setQRCodeURL(qrCodeURL)
-          console.log('qrCodeURL:', qrCodeURL); // 打印二维码URL
-        } catch (error) {
-          console.error(error);
-          // 处理错误情况
-        }
-      };
-      fetchData();
   }
+  const fetchData = async (uniKey: string) => {
+    try {
+        const response2 = await createQRCode(uniKey);
+        console.log("1111",response2);
+        const qrCodeURL = response2.data.qrimg;
+        setQRCodeURL(qrCodeURL)
+        console.log('qrCodeURL:', qrCodeURL); // 打印二维码URL
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
  // 开始轮询
-const checkLoginStatus = useCallback(async () => {
+const checkLoginStatus = useCallback(async (uniKey: string) => {
   try {
-    let qrCodeKey: string | null = null;
+    console.log("checkLoginStatus被调用了的第三次")
     let timestamp:number = Date.now()
-    const response:any = await checkQRCodeStatus(qrCodeKey as unknown as string);
+    const response:any = await checkQRCodeStatus(uniKey);
+    console.log("response响应了吗",response)
     const { data: { code } } = response;
-    if(!response) return
-    if (Date.now() - timestamp >= 60000) {
-      setRefresh(true)
-      qrCodeKey = null;
+    console.log("ybdiusdbfbj....")
+    console.log("12112",response.data);
+    if (!response || !response.data) return;
+    if (Date.now() - timestamp >= 6000) {
+      setRefresh(true);
+  
+      setTimestamp(Date.now()); // 更新时间戳
     } else if (code === 801) {
       // 等待扫码中...
       setLoginStatus('等待扫码中...');
+      setRefresh(true);
     } else if (code === 802) {
       timestamp = Date.now()
       // 待确认...
+      setRefresh(true); 
       setLoginStatus('待确认...');
     } else if (code === 803) {
-      qrCodeKey = null;
+      
+      setRefresh(false);
       // 登录成功
       setLoginStatus('登录成功');
     }
@@ -142,20 +139,22 @@ const checkLoginStatus = useCallback(async () => {
 useEffect(() => {
     getQRCode();
       // 每隔60秒检查登录状态
+      console.log("checkLoginStatus被调用了的第一次")
     const intervalId = setInterval(() => {
-      checkLoginStatus();
-    }, 60000);
+      console.log("checkLoginStatus被调用了的第二次")
+      checkLoginStatus(qrCodeKey);
+    }, 6000);
 
     return () => {
       // 清除定时器
       clearInterval(intervalId);
     };
-    }, [getQRCode, checkLoginStatus]);
+}, [qrCodeKey]);
 
-    const handleRefresh = () => {
-      // 刷新获取新的二维码
+    const handleRefresh = useCallback(() => {
       getQRCode();
-    };
+      setRefresh(false); // 重置 refresh 状态
+    }, [getQRCode]);
 
   const refreshStyles = useMemo(() => ({
     display: refresh ? 'block' : 'none'
@@ -169,11 +168,10 @@ useEffect(() => {
           <div className='title'>扫码登录</div>
           <div className='qr_code' id='qrContainer'>
             <div className='qr_code_content'>
-            {qrCodeURL && <img src={qrCodeURL} alt="QR Code" style={{ width: '130px', height: '130px' }} />}          
+             {qrCodeURL && <img src={qrCodeURL} alt="QR Code" style={{ width: '130px', height: '130px' }} />}          
               <div className='refresh' style={refreshStyles}>
                 <p>二维码已失效</p>
-                <button  onClick={handleRefresh} >点击刷新</button>
-                <p>{loginStatus}123</p>
+              {refresh &&   <button  onClick={handleRefresh} >点击刷新</button>}
               </div>
             </div>
           </div>
@@ -200,14 +198,12 @@ useEffect(() => {
        {
         state === AWAIT.PENDING ? Scan : Success
       }
-   
       <div className='otherbtn'>
           <div className='other pointer' onClick={onSwitchLoginMode}>选择其他登录模式</div>
       </div>
  
     </div>
     )   
-
 }
 export default QRLogin
 
