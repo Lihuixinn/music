@@ -5,10 +5,9 @@
 import React, {  Fragment, useCallback,  useEffect, useMemo, useRef, useState } from 'react'
 import "../styles/qr.css"
 import { AWAIT, ISetStateProps, STATUS } from '../typing';
-import axios, {  CancelTokenSource } from 'axios';
-import QRCode from 'qrcode';
 // import Context from 'react-redux/es/components/Context';
-import { cancelQR, checkQRCodeStatus, createQRCode, createQRkey } from '../../../api/qrCode';
+import { cancelQR, checkQRCodeStatus, createQRCode, createQRkey, } from '../../../api/qrCode';
+import { timestamp } from '../../../utils';
 
 interface IProps {
   stateCode: STATUS
@@ -16,22 +15,15 @@ interface IProps {
 
 const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () => void }, props: IProps)=>{
   const rootRef = useRef<HTMLDivElement>(null)
-   // 显示二维码
-   let cancelTokenSource: CancelTokenSource | null = null;
-  //  const canvasRef = useRef<HTMLCanvasElement>(null)
   // 是否显示刷新器
   const [refresh, setRefresh] = useState(false)
   // 是否显示已扫码
   const [state, setState] = useState(AWAIT.PENDING)
-
-  const [qrCode, setQRCode] = useState('');
-  const [cancelToken, setCancelToken] = useState(null);
-  const canvasRef = useRef(null);
-
+// 显示二维码
   const [qrCodeKey, setQRCodeKey] = useState('');
   const [qrCodeURL, setQRCodeURL] = useState('');
-  const [status, setStatus] = useState('');
-  const [source, setSource] = useState<CancelTokenSource | null>(null);
+  const [loginStatus, setLoginStatus] = useState('');
+
 
   const refreshClick = useCallback(() => {
     setRefresh(false)
@@ -78,8 +70,8 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () =
 //     };
 //   }, []);
 
-useEffect(() => {
   // 获取二维码key和图片
+  
   async function getQRCode() {
     try {
       const response1 = await createQRkey();
@@ -91,102 +83,70 @@ useEffect(() => {
         // 处理错误情况
       }
       
-      const codeKey = response1.data.unikey;
-      // console.log(qrCodeURL);
-      const response2 = await createQRCode(codeKey);
-      console.log(response2);
-      // const qrCodeURL = response2.data.qrurl.replace("undefined",response1.data.unikey);
-      
-      const qrCodeURL = `https://music.163.com/login?codekey=${codeKey}`;
-      console.log('qrCodeURL:', qrCodeURL); // 打印二维码URL
-
-      setTimeout(() => {
-        const container = document.getElementById('qrContainer');
-        if (container) {
-          // 创建一个 <img> 元素
-          const qrImage = document.createElement('img');
-          qrImage.src = qrCodeURL;
-  
-          // 将 <img> 元素添加到容器中
-          container.appendChild(qrImage);
-        } else {
-          console.error('Container element not found');
-          // 处理错误情况
-        }
-      }, 5000); // 延迟 1 秒
-    
-      setQRCodeURL(qrCodeURL);
-      
-      
-      const cancelToken = axios.CancelToken;
-      const source = cancelToken.source();
-      setSource(source);
-      console.log("获取成功")
-
-      // startPolling(response1.data.unikey); // 开始轮询
+      const fetchData = async () => {
+        try {
+            const codeKey = response1.data.unikey;
+            // console.log(qrCodeURL);
+            const response2 = await createQRCode(codeKey);
+            console.log("1111",response2);
+            const qrCodeURL = response2.data.qrimg;
+            setQRCodeURL(qrCodeURL)
+            console.log('qrCodeURL:', qrCodeURL); // 打印二维码URL
+          } catch (error) {
+            console.error(error);
+            // 处理错误情况
+          }
+        };
+        fetchData();
     } catch (error) {
       console.error('获取二维码失败:', error);
     }
   }
 
-  getQRCode();
-
-  return () => {
-    // 组件卸载时取消轮询
-    if (source) {
-      source.cancel('取消请求');
+ // 开始轮询
+const checkLoginStatus = useCallback(async () => {
+  try {
+    // let timestamp = Data.now()
+    const response = await checkQRCodeStatus(qrCodeKey);
+    const { data: { code } } = response;
+    if(!response) return
+    if (code === 800) {
+      // 二维码已过期，刷新获取新的二维码
+      getQRCode();
+    } else if (code === 801) {
+      // 等待扫码中...
+      setLoginStatus('等待扫码中...');
+    } else if (code === 802) {
+      // 待确认...
+      setLoginStatus('待确认...');
+    } else if (code === 803) {
+      // 登录成功
+      setLoginStatus('登录成功');
     }
-  };
-}, []);
-
-// 开始轮询
-// async function startPolling(key: string) {
-//   setStatus('等待扫码');
-//   const interval = setInterval(async () => {
-//     try {
-//       const response = await checkQRCodeStatus(key);
-//       const { code, message } = response.data;
-//       if (code === 800) {
-//         setStatus('二维码过期，请刷新');
-//         clearInterval(interval);
-//       } else if (code === 801) {
-//         setStatus('等待扫码');
-//       } else if (code === 802) {
-//         setStatus('请确认登录');
-//       } else if (code === 803) {
-//         setStatus('登录成功');
-//         clearInterval(interval);
-//       }
-//     } catch (error) {
-//       console.error('轮询出错:', error);
-//     }
-//   }, 1000);
-//   setTimer(interval);
-// }
-
- // 刷新二维码
-  async function refreshQRCode() {
-    if (source) {
-      source.cancel('取消请求');
-    }
-
-    try {
-      const response1 = await createQRkey();
-      setQRCodeKey(response1.data.unikey);
-
-      // 有问题
-      const response2 = await createQRCode(qrCodeKey);
-      setQRCodeURL(response2.data.qrurl);
-
-      const cancelToken = axios.CancelToken;
-      const newSource = cancelToken.source();
-      setSource(newSource);
-
-      // startPolling(response1.data.unikey); // 开始轮询
-    } catch (error) {
-      console.error('获取二维码失败:', error);
-    }
+  } catch (error) {
+    console.error(error);
+    // 处理错误情况
   }
+}, [qrCodeKey,setQRCodeKey]);
+
+
+useEffect(() => {
+    getQRCode();
+      // 每隔60秒检查登录状态
+    const intervalId = setInterval(() => {
+      checkLoginStatus();
+    }, 60000);
+
+    return () => {
+      // 清除定时器
+      clearInterval(intervalId);
+    };
+    }, [getQRCode, checkLoginStatus]);
+
+    const handleRefresh = () => {
+      // 刷新获取新的二维码
+      getQRCode();
+    };
 
   const refreshStyles = useMemo(() => ({
     display: refresh ? 'block' : 'none'
@@ -198,16 +158,15 @@ useEffect(() => {
         <div className='qr_phone'></div>
         <div className='right'>
           <div className='title'>扫码登录</div>
-          {qrCodeURL && <img src={qrCodeURL} alt="QR Code" style={{ width: '200px', height: '200px' }} />}
-           
-            {/* {status && <p>{status}</p>} */}
           <div className='qr_code' id='qrContainer'>
             <div className='qr_code_content'>
-            <img src={qrCode} alt="QR Code" />
-              <canvas ref={canvasRef}  style={{width:"130px",height:"130px"}}></canvas>
+            {qrCodeURL && <img src={qrCodeURL} alt="QR Code" style={{ width: '130px', height: '130px' }} />}
+          
+              {/* <canvas ref={canvasRef}  style={{width:"130px",height:"130px"}}></canvas> */}
               <div className='refresh' style={refreshStyles}>
                 <p>二维码已失效</p>
-                <button  onClick={refreshQRCode} >点击刷新</button>
+                <button  onClick={handleRefresh} >点击刷新</button>
+                <p>{loginStatus}123</p>
               </div>
             </div>
           </div>

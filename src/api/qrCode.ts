@@ -4,6 +4,8 @@
 
 import axios, { Canceler } from 'axios'
 import request from './request'
+import { timestamp } from '../utils'
+
 
 interface IC {
   cancelCreateQRkey?: Canceler
@@ -22,7 +24,9 @@ function createQRkey() {
       // "Access-Control-Allow-Origin":"*",
       'Content-Type': 'application/x-www-form-urlencoded'
     },
-    
+    params: {
+      timestamp: timestamp // 将时间戳作为请求参数
+    },
     cancelToken: new axios.CancelToken(function (cancel) {
       //cancel参数是一个函数，调用该函数取消请求
       cancelQR.cancelCreateQRkey = cancel
@@ -41,6 +45,11 @@ function createQRCode(key:string) {
       'Content-Type': 'application/x-www-form-urlencoded',
       // "Access-Control-Allow-Origin":"*"
     },
+    params: {
+      timestamp: timestamp ,// 将时间戳作为请求参数
+      key,
+      qrimg: key
+    },
   })
 }
 
@@ -58,6 +67,10 @@ function checkQRCodeStatus(key: string) {
     headers: {
       // "Access-Control-Allow-Origin":"*",
       'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    params: {
+      timestamp: timestamp ,// 将时间戳作为请求参数
+      key
     },
   })
 }
