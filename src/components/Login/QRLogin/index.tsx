@@ -24,10 +24,7 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () =
   const [qrCodeURL, setQRCodeURL] = useState('');
   const [loginStatus, setLoginStatus] = useState('');
 
-// 按钮刷新
-  const refreshClick = useCallback(() => {
-    setRefresh(false)
-  }, [])
+
 
 //  useEffect(() => {
 //     // 生成二维码
@@ -98,7 +95,6 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () =
         console.error(error);
       }
     };
-
  // 开始轮询
 const checkLoginStatus = useCallback(async (uniKey: string) => {
   try {
@@ -107,12 +103,9 @@ const checkLoginStatus = useCallback(async (uniKey: string) => {
     const response:any = await checkQRCodeStatus(uniKey);
     console.log("response响应了吗",response)
     const { data: { code } } = response;
-    console.log("ybdiusdbfbj....")
-    console.log("12112",response.data);
     if (!response || !response.data) return;
-    if (Date.now() - timestamp >= 6000) {
+    if (Date.now() - timestamp >= 60000) {
       setRefresh(true);
-  
       setTimestamp(Date.now()); // 更新时间戳
     } else if (code === 801) {
       // 等待扫码中...
@@ -133,28 +126,33 @@ const checkLoginStatus = useCallback(async (uniKey: string) => {
     console.error(error);
     // 处理错误情况
   }
-}, [qrCodeKey,setQRCodeKey]);
+},  [timestamp]);
 
 
 useEffect(() => {
     getQRCode();
       // 每隔60秒检查登录状态
-      console.log("checkLoginStatus被调用了的第一次")
+    console.log("checkLoginStatus被调用了的第一次")
     const intervalId = setInterval(() => {
       console.log("checkLoginStatus被调用了的第二次")
-      checkLoginStatus(qrCodeKey);
-    }, 6000);
-
+      checkLoginStatus("");
+      setRefresh(true); // 手动设置refresh为true，确保立即显示刷新按钮
+    }, 60000);
     return () => {
       // 清除定时器
       clearInterval(intervalId);
     };
-}, [qrCodeKey]);
+}, [checkLoginStatus]);
 
+  // 按钮刷新
+  const refreshClick = useCallback(() => {
+    setRefresh(false)
+  }, [])
+  // 获取新的二维码之后按钮隐藏
     const handleRefresh = useCallback(() => {
       getQRCode();
       setRefresh(false); // 重置 refresh 状态
-    }, [getQRCode]);
+    }, []);
 
   const refreshStyles = useMemo(() => ({
     display: refresh ? 'block' : 'none'
