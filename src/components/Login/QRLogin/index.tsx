@@ -4,7 +4,7 @@
 
 import React, {  Fragment, useCallback,  useEffect, useMemo, useRef, useState } from 'react'
 import "../styles/qr.css"
-import { AWAIT, ISetStateProps, STATUS } from '../typing';
+import { AWAIT,  STATUS } from '../typing';
 // import Context from 'react-redux/es/components/Context';
 import {  checkQRCodeStatus, createQRCode, createQRkey, } from '../../../api/qrCode';
 
@@ -23,59 +23,13 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () =
 // 显示二维码
   const [qrCodeKey, setQRCodeKey] = useState('');
   const [qrCodeURL, setQRCodeURL] = useState('');
-  const [loginStatus, setLoginStatus] = useState('');
-// 显示是否登录
-  const [scannedSuccess, setScannedSuccess] = useState(false);
-  const [confirmLogin, setConfirmLogin] = useState(false);
-
-
-
-//  useEffect(() => {
-//     // 生成二维码
-//     async function generateQRCode() {
-//       try {
-//         // 获取密钥
-//         cancelTokenSource = axios.CancelToken.source();
-//         console.log(cancelTokenSource);
-        
-//         const keyResponse = await axios.post('https://netease-cloud-music-api-zeta-bice.vercel.app/login/qr/key', {
-//           timestamp: Date.now()
-//         }, {
-//           cancelToken: cancelTokenSource.token
-//         });
-
-//         const key = keyResponse.data.unikey;
-//         console.log("2222",keyResponse.data);
-      
-//         // 在Canvas上绘制二维码
-//         if (canvasRef.current) {
-//           await QRCode.toCanvas(canvasRef.current, 'your_text_here');
-//           console.log('二维码生成成功');
-//         }
-//       } catch (error) {
-//         if (axios.isCancel(error)) {
-//           console.log('取消生成二维码');
-//         } else {
-//           console.error('生成二维码失败:', error);
-//         }
-//       }
-//     }
-//     // 组件挂载时生成二维码
-//     generateQRCode();
-
-//     // 组件卸载时取消生成二维码请求
-//     return () => {
-//       if (cancelTokenSource) {
-//         cancelTokenSource.cancel('取消生成二维码');
-//       }
-//     };
-//   }, []);
 
   // 获取二维码key和图片
   async function getQRCode() {
     try {
+
       const response1 = await createQRkey();
-      console.log("1212",response1)
+      console.log("二维码展示函数",response1)
       const uniKey = response1.data.unikey;
       if (response1 && response1.data) {
         setQRCodeKey(response1.data.unikey);
@@ -90,42 +44,49 @@ const QRLogin: React.FC<any> = ({ onSwitchLoginMode }: { onSwitchLoginMode: () =
       console.error('获取二维码失败:', error);
     }
   }
+
   const fetchData = async (uniKey: string) => {
     try {
         const response2 = await createQRCode(uniKey);
-        console.log("1111",response2);
+        console.log("二维码图片获取函数",response2);
         const qrCodeURL = response2.data.qrimg;
         setQRCodeURL(qrCodeURL)
-        console.log('qrCodeURL:', qrCodeURL); // 打印二维码URL
+        console.log('打印二维码URL:', qrCodeURL); // 打印二维码URL
       } catch (error) {
         console.error(error);
       }
     };
+
  // 开始轮询
 const checkLoginStatus = useCallback(async (uniKey: string) => {
   try {
     const currentTimestamp = Date.now(); // 获取当前时间戳
     const response:any = await checkQRCodeStatus(uniKey);
+    console.log(uniKey)
     console.log("response响应了吗",response)
+
     console.log("response.code:",response.code)
     if (!response) return;
+    console.log("时间戳再者")
+    console.log(currentTimestamp)
+    console.log(timestamp)
     if (currentTimestamp - timestamp >= 60000) {
       setRefresh(true);
       uniKey = "";
-      setTimestamp(currentTimestamp); // 更新时间戳
     } else if (response.code === 801) {
+      console.log("response==801",response.message)
       // 等待扫码中...
-      setLoginStatus(response.message);
       setRefresh(true);
     } else if (response.code === 802) {
-      setRefresh(true); 
-      setLoginStatus(response.message);
+      setState(AWAIT.FULLFILLED)
+      console.log("respnese==802",response.message)
     } else if (response.code === 803) {
       uniKey = "";
-      setScannedSuccess(true);
-      setConfirmLogin(true);
-      setLoginStatus(response.message);
+      console.log("respnese==803",response.message)
       setRefresh(false);
+      // 重新加载页面
+      window.location.reload()
+      window.scrollTo(0, 0)
     }
   } catch (error) {
     console.error(error);
@@ -135,11 +96,11 @@ const checkLoginStatus = useCallback(async (uniKey: string) => {
 
 useEffect(() => {
     getQRCode();
-      // 每隔60秒检查登录状态
-    console.log("checkLoginStatus被调用了的第一次")
+    console.log("checkLoginStatus被调用了的第yi次")
+    checkLoginStatus(qrCodeKey);
     const intervalId = setInterval(() => {
       console.log("checkLoginStatus被调用了的第二次")
-      checkLoginStatus(qrCodeKey);
+      checkLoginStatus("");
       setRefresh(true); // 手动设置refresh为true，确保立即显示刷新按钮
     }, 60000);
     return () => {
@@ -155,6 +116,7 @@ useEffect(() => {
   }, [])
   // 获取新的二维码之后按钮隐藏
     const handleRefresh = useCallback(() => {
+      setTimestamp(Date.now())
       setRefreshButtonClicked(true);
       setRefresh(false); // 重置 refresh 状态
     }, []);
@@ -188,14 +150,13 @@ useEffect(() => {
 
   const Success = useMemo(() => (
     <Fragment>
-      {scannedSuccess && (
       <div className='suc'>
         <div className='suc-icon'></div>
         <p className='suc-txt'>扫描成功</p>
-      </div>)}
-      {confirmLogin &&<div className='confirm'>请在手机上确认登录</div>}
+      </div>
+    <div className='confirm'>请在手机上确认登录</div>
     </Fragment>
-  ), [scannedSuccess, confirmLogin]);
+  ), []);
 
     return (
     <div className='qr'  ref={rootRef} >

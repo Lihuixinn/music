@@ -1,26 +1,52 @@
 import React, { useState,useEffect } from 'react';
 import {LeftOutlined,RightOutlined} from "@ant-design/icons"
 import { Link } from "react-router-dom";
+import axios  from 'axios';
 import "./banner.css"
-import { url } from 'inspector';
+import  { getBanner,cancelgetBanner }from '../../../api/banner';
+
+type bannerInfo = {
+  imgUrl: string,
+  targetId: number,
+  scm: string,
+  targetType: number,
+  url: string
+}
+
+function preload(imageUrl: string) {
+  const img = new Image();
+  img.src = imageUrl;
+}
 
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMouseOver, setIsMouseOver] = useState(false);
-  
+  const [images, setImages] = useState([]);
+  const [banners, setBanners] = useState<bannerInfo[]>([])
 
-  // 定义图片列表，可以根据你的需求进行修改
-  const  images = [
-    'https://p1.music.126.net/NfXNU740LaMSCUzm-9ZPGg==/109951168762124227.jpg',
-    'https://p1.music.126.net/HXLlQuPytu5YJWZ50mdMRQ==/109951168754711754.jpg',
-    'https://p1.music.126.net/IJ83mwGaDBosJAwwhl7J4w==/109951168762093705.jpg',
-    'https://p1.music.126.net/KKbwZu3sblPP9CHAM5Bdtg==/109951168762131988.jpg',
-    "https://p1.music.126.net/P1nUxk1uOAL3PsHaYoFE0w==/109951168762103145.jpg",
-    "https://p1.music.126.net/kEQkFAIoPToQCBjG1v2gmA==/109951168762101997.jpg",
-  ];
+  function getbanner(){
+    getBanner().then((res: any) => {
+      try {
+        const b = res.banners.map((item: any) =>
+        ({
+          imgUrl: item.imageUrl,
+          targetId: item.targetId,
+          scm: item.scm,
+          targetType: item.targetType
+        }))
   
-
+        b.forEach((item: bannerInfo) => {
+          preload(item.imgUrl)
+        })
+        setBanners(b)
+    } catch (error) {
+      console.error('获取图片列表失败:', error);
+      return [];
+      }
+    })
+  }
+  
   const onNextClick = () => {
     setCurrentIndex((prevIndex) => {
       const nextIndex = prevIndex + 1;
@@ -43,17 +69,19 @@ const Carousel = () => {
     });
   };
   useEffect(() => {
+    getbanner()
+    if (banners.length) {
     // 自动播放功能
     const autoplay = setInterval(() => {
       if (!isMouseOver) {
         onNextClick();
-
       }
     }, 3000);
-
+  
     return () => {
       clearTimeout(autoplay);
     };
+  }
   }, [isMouseOver]); // 当 isMouseOver 改变时重新执行
 
   const handleMouseEnter = () => {
@@ -65,7 +93,6 @@ const Carousel = () => {
   }; // 仅在组件挂载时执行
   
   const handleDotClick = (index:any) => {
-    
     setCurrentIndex(index);
   };
 
@@ -78,7 +105,6 @@ const Carousel = () => {
           // eslint-disable-next-line jsx-a11y/img-redundant-alt
           <img key={index} src={image}  alt={`Image ${index + 1}`}
           style={{ display: index === currentIndex ? 'block' : 'none' }}
-          // onClick={() => handleDotClick(index)}
         />
         ))}
 

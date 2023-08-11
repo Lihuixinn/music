@@ -20,6 +20,7 @@ function createQRkey() {
   return request({
     url: `/login/qr/key`,
     method: 'POST',
+    withCredentials: true,
     headers: {
       // "Access-Control-Allow-Origin":"*",
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -41,6 +42,7 @@ function createQRCode(key:string) {
   return request({
     url: `/login/qr/create`,
     method: 'POST',
+    withCredentials: true,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       // "Access-Control-Allow-Origin":"*"
@@ -64,6 +66,7 @@ function checkQRCodeStatus(key: string) {
   return request({
     url: `/login/qr/check`,
     method: 'POST',
+    withCredentials: true,
     headers: {
       // "Access-Control-Allow-Origin":"*",
       'Content-Type': 'application/x-www-form-urlencoded'

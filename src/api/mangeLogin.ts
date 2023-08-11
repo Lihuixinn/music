@@ -17,6 +17,7 @@ const cancel: IC = {}
 function refreshLogin() {
   return request({
     url: `/login/refresh`,
+    withCredentials: true,
     params: {
         timestamp: timestamp ,// 将时间戳作为请求参数
       },
@@ -29,6 +30,7 @@ function refreshLogin() {
 function logout() {
   return request({
     url: `/logout`,
+    withCredentials: true,
     params: {
         timestamp: timestamp ,// 将时间戳作为请求参数
       },

@@ -3,8 +3,9 @@
  */
 import React, { useEffect, useState } from 'react'
 import Username from '../User'
-import Login from "../../../Login"
+
 import {getUserStatus,cancelUser} from "../../../../api/getUserInfo"
+import Login from './Login'
 
 
 const initData = {

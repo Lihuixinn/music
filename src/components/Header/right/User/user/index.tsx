@@ -1,23 +1,10 @@
 /**
  * 登录状态
  */
-import React, { useCallback, memo } from 'react'
+import React, { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { logout } from '../../../../../api/mangeLogin'
-// 用户
-enum USER {
-    HOME = 'user/home',
-    LEVEL = 'user/level',
-    MUMBER = 'user/mumber',
-    UPDATE = 'user/update'
-  }
-  
 
-// 个人信息
-enum MSG {
-    AT = 'mas/at'
-  }
-  
 
 // 初始化登录数据
 interface IProps  {
@@ -26,7 +13,7 @@ interface IProps  {
     account: { [propsName: string]: any }
   }
   
-function User(props: IProps) {
+const person:React.FC<any> = (props: IProps)=>{
   const { profile } = props
   const { avatarUrl, userId } = profile
 
@@ -45,31 +32,31 @@ function User(props: IProps) {
       <div className='m-tlist'>
         <ul>
           <li className='pointer'>
-            <Link to={USER.HOME + `?id=${userId}`}>
+            <Link to='user/home+ `?id=${userId}`'>
               <i className='icn icn-hm toplist_img'></i>
               <em>我的主页</em>
             </Link>
           </li>
           <li className='pointer'>
-            <Link to={MSG.AT}>
+            <Link to='mas/at'>
               <i className='icn icn-msg toplist_img'></i>
               <em>我的信息</em>
             </Link>
           </li>
           <li className='pointer'>
-            <Link to={USER.LEVEL + `?id=${userId}`}>
+            <Link to='user/level + `?id=${userId}`'>
               <i className='icn icn-lv toplist_img'></i>
               <em>我的等级</em>
             </Link>
           </li>
           <li className='pointer'>
-            <Link to={USER.MUMBER}>
+            <Link to='user/mumber'>
               <i className='icn icn-mbr toplist_img'></i>
               <em>vip会员</em>
             </Link>
           </li>
           <li className='pointer'>
-            <Link to={USER.UPDATE}>
+            <Link to='user/update'>
               <i className='icn icn-st toplist_img'></i>
               <em>个人设置</em>
             </Link>
@@ -93,4 +80,4 @@ function User(props: IProps) {
   )
 }
 
-export default memo(User)
+export default person;

@@ -125,6 +125,7 @@ function getUserVip() {
 function dailySignin(type: number = 1) {
   return request({
     url: `/daily_signin`,
+    withCredentials: true,
     params: {
       timestamp: timestamp ,// 将时间戳作为请求参数
       type

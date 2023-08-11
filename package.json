@@ -69,5 +69,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6"
   },
-  "proxy":"https://netease-cloud-music-api-zeta-bice.vercel.app"
+  "proxy":
+    "https://netease-cloud-music-api-zeta-bice.vercel.app"
+  
 }
