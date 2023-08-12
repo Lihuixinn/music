@@ -2,11 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom"
 import "./singers.css"
 
-interface singers {
-  name: string;
-  description: string;
-  image: string;
-}
+
 
 const singers = [
     {

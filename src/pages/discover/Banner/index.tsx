@@ -1,52 +1,38 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useRef} from 'react';
 import {LeftOutlined,RightOutlined} from "@ant-design/icons"
 import { Link } from "react-router-dom";
 import axios  from 'axios';
 import "./banner.css"
-import  { getBanner,cancelgetBanner }from '../../../api/banner';
+// function preload(imageUrl: string) {
+//   const img = new Image();
+//   img.src = imageUrl;
+// }
 
-type bannerInfo = {
-  imgUrl: string,
-  targetId: number,
-  scm: string,
-  targetType: number,
-  url: string
-}
-
-function preload(imageUrl: string) {
-  const img = new Image();
-  img.src = imageUrl;
-}
-
+const getbanner = async () => {
+  try {
+    const response = await axios.get("https://netease-cloud-music-api-zeta-bice.vercel.app/banner");
+    if (response.data.code === 200) {
+      const banners = response.data.banners;
+      const imageUrls = banners.map((banner:any) => banner.imageUrl);
+      return imageUrls;
+    } 
+    
+    else {
+      console.error("获取图片列表失败: 响应状态码不正确", response.data.code);
+      return [];
+    }
+  } catch (error) {
+    console.error("获取图片列表失败:", error);
+    return [];
+  }
+};
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMouseOver, setIsMouseOver] = useState(false);
   const [images, setImages] = useState([]);
-  const [banners, setBanners] = useState<bannerInfo[]>([])
+  const imageRefs = useRef([]);
 
-  function getbanner(){
-    getBanner().then((res: any) => {
-      try {
-        const b = res.banners.map((item: any) =>
-        ({
-          imgUrl: item.imageUrl,
-          targetId: item.targetId,
-          scm: item.scm,
-          targetType: item.targetType
-        }))
-  
-        b.forEach((item: bannerInfo) => {
-          preload(item.imgUrl)
-        })
-        setBanners(b)
-    } catch (error) {
-      console.error('获取图片列表失败:', error);
-      return [];
-      }
-    })
-  }
-  
   const onNextClick = () => {
     setCurrentIndex((prevIndex) => {
       const nextIndex = prevIndex + 1;
@@ -69,8 +55,12 @@ const Carousel = () => {
     });
   };
   useEffect(() => {
-    getbanner()
-    if (banners.length) {
+     // 懒加载图片
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1,
+    };
     // 自动播放功能
     const autoplay = setInterval(() => {
       if (!isMouseOver) {
@@ -81,10 +71,15 @@ const Carousel = () => {
     return () => {
       clearTimeout(autoplay);
     };
-  }
-  }, [isMouseOver]); // 当 isMouseOver 改变时重新执行
+  },[isMouseOver]); // 当 isMouseOver 改变时重新执行
 
   const handleMouseEnter = () => {
+    const fetchBanner = async () => {
+      const bannerData = await getbanner();
+      setImages(bannerData);
+      console.log("bannerData",bannerData)
+    };
+    fetchBanner();
     setIsMouseOver(true);
   };
 
@@ -104,7 +99,8 @@ const Carousel = () => {
         {images.map((image, index) => (
           // eslint-disable-next-line jsx-a11y/img-redundant-alt
           <img key={index} src={image}  alt={`Image ${index + 1}`}
-          style={{ display: index === currentIndex ? 'block' : 'none' }}
+          style={{ display: index === currentIndex ? 'block' : 'none' }
+        }
         />
         ))}
 
@@ -131,3 +127,7 @@ const Carousel = () => {
 };
 
 export default Carousel;
+
+function sendRequest() {
+  throw new Error('Function not implemented.');
+}

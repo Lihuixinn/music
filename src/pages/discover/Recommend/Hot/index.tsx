@@ -1,4 +1,4 @@
-import React, { useEffect,Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { Link } from "react-router-dom";
 import More from "../More/index"
 import Album from "../Album/index"
@@ -6,6 +6,7 @@ import Toplist from '../toplist';
 import "./hot.css"
 
 const navList = [
+  //  eslint-disable-next-line jsx-a11y/img-redundant-alt
     {
       name: '华语',
       path: '/discover/playlist/',
@@ -47,6 +48,7 @@ const navList = [
   const renderBoxes = () => {
     return images.map((image, index) => (
       <div key={index} className="box">
+        {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
         <img src={image} alt={`Image ${index + 1}`} />
         <div className='bottom'>
           <Link to="#" title='播放' className='icon-play'></Link>

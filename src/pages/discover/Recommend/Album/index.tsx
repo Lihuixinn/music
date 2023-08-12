@@ -8,14 +8,14 @@ import 'slick-carousel/slick/slick-theme.css';
 import More from "../More/index"
 import "./album.css"
 
-type Album = {
+type album = {
     id: number;
     name: string;
     cover: string;
   };
 
 const Album:React.FC = ()=>{
-    const albums: Album[] = [
+    const albums: album[] = [
         {
           id: 1,
           name: 'Album 1',

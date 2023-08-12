@@ -1,16 +1,10 @@
 /**
- * 手机登录的公共组件
+ * 手机登录
  */
-import React, { useState, useContext, useEffect, useCallback, useMemo, MouseEvent, FormEvent } from 'react'
-import { STATUS, ISetStateProps } from '../typing'
+import React, { useState } from 'react'
 
 import "../styles/phone.css"
 import { Link } from 'react-router-dom'
-
-import MainLogin from '../mainLogin'
-
-
-
 
 const Phone:React.FC<any>=({onReturnClick})=> {
   const [showPasswordLogin, setShowPasswordLogin] = useState(true);

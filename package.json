@@ -70,6 +70,6 @@
     "redux-logger": "^3.0.6"
   },
   "proxy":
-    "https://netease-cloud-music-api-zeta-bice.vercel.app"
+    "https://netease-cloud-music-api-zeta-bice.vercel.app/"
   
 }
