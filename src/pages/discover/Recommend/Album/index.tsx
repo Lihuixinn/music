@@ -87,7 +87,8 @@ const Album:React.FC = ()=>{
           },
         ],
       };
-    
+      
+      
     
      
     return (
